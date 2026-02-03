@@ -1,0 +1,34 @@
+entity Proyecto {
+    nombre String required,
+    descripcion String,
+    fechaInicio LocalDate
+}
+
+entity Tarea {
+    titulo String required,
+    descripcion String,
+    estado Estado
+}
+
+enum Estado {
+    PENDIENTE, EN_PROGRESO, COMPLETADA
+}
+
+entity Empleado {
+    nombre String required,
+    email String required
+}
+
+// Definición de Relaciones (El corazón del UML)
+relationship OneToMany {
+    Proyecto{tarea} to Tarea{proyecto(nombre)}
+}
+
+relationship ManyToMany {
+    Tarea{empleado(nombre)} to Empleado{tarea}
+}
+
+// Configuración de la generación
+paginate Proyecto, Tarea with pagination
+service all with serviceImpl
+dto * with mapstruct
